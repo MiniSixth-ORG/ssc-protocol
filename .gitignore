@@ -26,3 +26,8 @@
 # 編輯器與系統
 .DS_Store
 *.swp
+
+# Claude Code agent 記憶（本機知識庫，不入版控）
+.claude/agent-memory/
+.claude/agent-memory-local/
+.claude/settings.local.json
