@@ -1,0 +1,62 @@
+# ── 相依圖建構 ──────────────────────────────
+[graph]
+targets = []                    # 空＝檢查所有目標平台
+all-features = false
+no-default-features = false
+
+[output]
+feature-depth = 1
+
+# ── 檢查一：已知漏洞 ────────────────────────
+# 註：新版 cargo-deny 中漏洞／未維護／已撤回一律為 deny，不可調整。
+#     此處僅能列出「明知但暫時接受」的例外，且必須寫理由。
+[advisories]
+ignore = [
+    # { id = "RUSTSEC-0000-0000", reason = "填寫為何暫時接受" },
+]
+
+# ── 檢查二：授權合規 ────────────────────────
+[licenses]
+allow = [
+    "Apache-2.0",      # 你的專案本身
+    "MIT",             # Rust 生態最常見
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",     # unicode-ident 等基礎 crate
+    "Zlib",
+]
+confidence-threshold = 0.9      # 授權文字比對信心門檻（0.8 預設，0.9 較嚴）
+exceptions = [
+    # { allow = ["OpenSSL"], crate = "ring" },   # 逐 crate 開特例
+]
+
+[licenses.private]
+ignore = true                   # 忽略自家未發布 crate 的授權檢查
+
+# ── 檢查三：相依樹衛生 ──────────────────────
+[bans]
+multiple-versions = "warn"      # 同 crate 多版本＝供應鏈膨脹（先警告）
+wildcards = "deny"              # 禁止 "*" 版本宣告（不可再現）
+highlight = "all"
+workspace-default-features = "allow"
+external-default-features = "allow"
+allow = []
+allow-workspace = false
+deny = [
+    # { crate = "某crate", reason = "禁用理由" },
+]
+skip = []
+skip-tree = []
+
+# ── 檢查四：來源可信度 ──────────────────────
+[sources]
+unknown-registry = "deny"       # 只允許已知登錄源
+unknown-git = "deny"            # 禁止未經審核的 git 相依
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
+
+[sources.allow-org]
+github = []                     # 日後可填你的 GitHub 組織
+gitlab = []
+bitbucket = []
