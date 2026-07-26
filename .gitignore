@@ -1,1 +1,28 @@
+# Rust
 /target
+**/target
+**/*.rs.bk
+
+# 機密（供應鏈專案：絕不入庫）
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.gpg
+!*.pub
+
+# 環境設定
+.env
+.env.*
+!.env.example
+
+# 本機資料庫
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# 編輯器與系統
+.DS_Store
+*.swp
